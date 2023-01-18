@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { join } from 'path';
 import { UsersModule } from './users/users.module';
+import { BrandsModule } from './brands/brands.module';
 
 @Module({
   imports: [
@@ -20,15 +21,16 @@ import { UsersModule } from './users/users.module';
     }),
     UsersModule,
     TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'root',
-      database: 'test',
-      entities: [],
-      synchronize: true,
+      type: 'postgres',
+      host: process.env.DB_HOST,
+      port: +process.env.DB_PORT,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      synchronize: false,
+      autoLoadEntities: true,
     }),
+    BrandsModule,
   ],
   controllers: [],
   providers: [],

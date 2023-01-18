@@ -7,15 +7,27 @@ type User {
   exampleField: Int!
 }
 
+type Brand {
+  """Brands for the products"""
+  id: ID!
+  title: String!
+  description: String
+}
+
 type Query {
   users: [User!]!
   user(id: Int!): User!
+  brands: [Brand!]!
+  brand(id: ID!): Brand!
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
+  createBrand(createBrandInput: CreateBrandInput!): Brand!
+  updateBrand(updateBrandInput: UpdateBrandInput!): Brand!
+  removeBrand(id: ID!): Brand!
 }
 
 input CreateUserInput {
@@ -27,4 +39,17 @@ input UpdateUserInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!
+}
+
+input CreateBrandInput {
+  title: String!
+  description: String
+}
+
+input UpdateBrandInput {
+  title: String
+  description: String
+
+  """Brands for the products"""
+  id: ID!
 }
