@@ -8,6 +8,7 @@ import { Brand } from './entities/brand.entity';
   providers: [BrandsResolver, BrandsService],
   imports : [
     TypeOrmModule.forFeature([Brand])
-  ]
+  ],
+  exports: [BrandsService]
 })
 export class BrandsModule {}

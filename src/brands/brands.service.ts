@@ -18,28 +18,27 @@ export class BrandsService {
   }
 
   async findAll(): Promise<Brand[]> {
-    return this.brandsRepository.find();
+    return await this.brandsRepository.find();
   }
 
-  async findOne(id: string) {
+  async findOne(id: number) {
     const brand = await this.brandsRepository.findOneBy({ id });
     if( !brand ) throw new NotFoundException(`Brand with id: ${ id } not found`);
     return brand;
   }
 
-  async update(id: string, updateBrandInput: UpdateBrandInput) {
+  async update(id: number, updateBrandInput: UpdateBrandInput) {
 
-    const getbrand = await this.findOne(id);
-    if ( !getbrand ) throw new NotFoundException(`Brand with id: ${ id } not found`);
-      const brand = await this.brandsRepository.preload({
-        ...updateBrandInput,
-        id:getbrand.id
-          }
-        );
+    const brand = await this.brandsRepository.preload({
+      ...updateBrandInput,
+      id
+        }
+      );
+    if ( !brand ) throw new NotFoundException(`Brand with id: ${ id } not found`);
     return this.brandsRepository.save(brand);
   }
 
-  async remove(id: string): Promise<Brand> {
+  async remove(id: number): Promise<Brand> {
     const brand = await this.findOne(id);
     await this.brandsRepository.remove(brand);
     console.log(brand);

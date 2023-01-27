@@ -1,24 +1,23 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { BrandsService } from './brands.service';
-import { CreateBrandInput } from './dto/inputs';
-import { Brand } from './entities/brand.entity';
+import { CreatePromoInput } from './dto/inputs';
+import { Promo } from './entities/promo.entity';
+import { PromosService } from './promos.service';
 
-describe('BrandsService', () => {
-  let service: BrandsService;
-  const test_id = 1;
-  const title_changed = 'Title changed';
+describe('PromosService', () => {
+  let service: PromosService;
+  const test_id = "123e4567-e89b-12d3-a456-426614174000";
+  const title_changed = 'Promo changed';
 
-  let createDto = new CreateBrandInput();
-  (createDto.title='MovilTest'),(createDto.description='Movil description');
+  let createDto = new CreatePromoInput();
+  (createDto.title='PromoTest'),(createDto.description='Promo description');
 
-  let brandsRepository = {
+  let promosRepository = {
     create: jest.fn().mockImplementation((payload)=>payload),
-    save: jest.fn().mockImplementation((brand)=>
+    save: jest.fn().mockImplementation((promo)=>
       Promise.resolve({
         id: test_id,
-        ...brand
+        ...promo
       })
     ),
     find: jest.fn().mockImplementation(()=>
@@ -30,11 +29,11 @@ describe('BrandsService', () => {
       ...createDto
     })
     ),
-    preload: jest.fn((brand)=>{
-      console.log('BRAND PRELOAD ES: '+JSON.stringify(brand));
+    preload: jest.fn((promo)=>{
+      console.log('Promo PRELOAD ES: '+JSON.stringify(promo));
       let obj = {};
       Object.keys(createDto)
-      .forEach(k => obj[k] = (brand[k] ?? createDto[k]));
+      .forEach(k => obj[k] = (promo[k] ?? createDto[k]));
       return {id:test_id,...obj};
     }),
     remove: jest.fn((id)=>{
@@ -46,18 +45,18 @@ describe('BrandsService', () => {
   };
 
 
-  const BRAND_REPOSITORY_TOKEN = getRepositoryToken(Brand); 
+  const PROMO_REPOSITORY_TOKEN = getRepositoryToken(Promo); 
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [BrandsService,
+      providers: [PromosService,
       {
-        provide: BRAND_REPOSITORY_TOKEN,
-        useValue : brandsRepository
+        provide: PROMO_REPOSITORY_TOKEN,
+        useValue : promosRepository
       }],
     }).compile();
 
-    service = module.get<BrandsService>(BrandsService);
+    service = module.get<PromosService>(PromosService);
   });
 
   it('should be defined', () => {
@@ -84,27 +83,27 @@ describe('BrandsService', () => {
     expect(service.remove).toBeDefined();
   })
 
-  it('should create a brand and return brand with id', async () => {
+  it('should create a promo and return promo with id', async () => {
     expect(await service.create(createDto)).toEqual({
       id:test_id,
       ...createDto
     });
   });
 
-  it('should get an array with a list of brands', async () => {
+  it('should get an array with a list of promos', async () => {
     const data = await service.findAll();
     expect(data).toEqual([]);
     expect(Array.isArray(data)).toBe(true);
   });
 
-  it('should find a brand with an id', async () => {
+  it('should find a promo with an id', async () => {
     expect(await service.findOne(test_id)).toEqual({
       id:test_id,
       ...createDto
     });
   });
 
-  it('should update a brand and return the brand', async () => {
+  it('should update a promo and return the promo', async () => {
     expect(await service.update(test_id,{id:test_id,title:title_changed})).toEqual({
       ...createDto,
       id:test_id,
@@ -112,11 +111,10 @@ describe('BrandsService', () => {
     });
   });
 
-  it('should remove a brand and return brand with id', async () => {
+  it('should remove a promo and return promo with id', async () => {
     expect(await service.remove(test_id)).toEqual({
-      id:1,
+      id: "123e4567-e89b-12d3-a456-426614174000",
       ...createDto
     });
   });
-
 });

@@ -18,17 +18,17 @@ export class BrandsResolver {
   }
 
   @Query(() => Brand, { name: 'brand' })
-  async findOne(@Args('id', { type: () => ID }) id: string): Promise<Brand> {
+  async findOne(@Args('id', { type: () => Int }) id: number): Promise<Brand> {
     return this.brandsService.findOne(id);
   }
 
   @Mutation(() => Brand)
-  updateBrand(@Args('updateBrandInput') updateBrandInput: UpdateBrandInput) {
+  updateBrand(@Args('updateBrandInput') updateBrandInput: UpdateBrandInput):Promise<Brand> {
     return this.brandsService.update(updateBrandInput.id, updateBrandInput);
   }
 
   @Mutation(() => Brand)
-  removeBrand(@Args('id', { type: () => ID }) id: string): Promise<Brand> {
+  removeBrand(@Args('id', { type: () => Int }) id: number): Promise<Brand> {
     return this.brandsService.remove(id);
   }
 }

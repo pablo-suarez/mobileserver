@@ -7,6 +7,10 @@ import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { join } from 'path';
 import { UsersModule } from './users/users.module';
 import { BrandsModule } from './brands/brands.module';
+import { CategoriesModule } from './categories/categories.module';
+import { TypesItemsModule } from './types_items/types_items.module';
+import { ProductsModule } from './products/products.module';
+import { PromosModule } from './promos/promos.module';
 
 @Module({
   imports: [
@@ -31,6 +35,10 @@ import { BrandsModule } from './brands/brands.module';
       autoLoadEntities: true,
     }),
     BrandsModule,
+    CategoriesModule,
+    TypesItemsModule,
+    ProductsModule,
+    PromosModule,
   ],
   controllers: [],
   providers: [],

@@ -7,18 +7,68 @@ type User {
   exampleField: Int!
 }
 
+type Category {
+  """Categories for the products"""
+  id: Int!
+  title: String!
+  description: String
+  products: [Product!]!
+}
+
+type TypesItem {
+  """Type of Item for the products"""
+  id: Int!
+  title: String!
+  description: String
+  products: [Product!]!
+}
+
+type Product {
+  id: ID!
+  name: String!
+  description: String!
+  image_path: String
+  price: Float!
+
+  """Available quantity of products"""
+  in_stock: Int!
+  brandId: Int!
+  categoryId: Int!
+  typeItemId: Int!
+  brand: Brand!
+  category: Category!
+  typeItem: TypesItem!
+}
+
 type Brand {
   """Brands for the products"""
+  id: Int!
+  title: String!
+  description: String
+  products: [Product!]!
+}
+
+type Promo {
   id: ID!
   title: String!
   description: String
+  date_start: String!
+  date_end: String!
 }
 
 type Query {
   users: [User!]!
   user(id: Int!): User!
   brands: [Brand!]!
-  brand(id: ID!): Brand!
+  brand(id: Int!): Brand!
+  categories: [Category!]!
+  category(id: Int!): Category!
+  typesItems: [TypesItem!]!
+  typesItem(id: Int!): TypesItem!
+  products: [Product!]!
+  product(id: ID!): Product!
+  promos: [Promo!]!
+  promo(id: String!): Promo!
 }
 
 type Mutation {
@@ -27,7 +77,19 @@ type Mutation {
   removeUser(id: Int!): User!
   createBrand(createBrandInput: CreateBrandInput!): Brand!
   updateBrand(updateBrandInput: UpdateBrandInput!): Brand!
-  removeBrand(id: ID!): Brand!
+  removeBrand(id: Int!): Brand!
+  createCategory(createCategoryInput: CreateCategoryInput!): Category!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
+  removeCategory(id: Int!): Category!
+  createTypesItem(createTypesItemInput: CreateTypesItemInput!): TypesItem!
+  updateTypesItem(updateTypesItemInput: UpdateTypesItemInput!): TypesItem!
+  removeTypesItem(id: Int!): TypesItem!
+  createProduct(createProductInput: CreateProductInput!): Product!
+  updateProduct(updateProductInput: UpdateProductInput!): Product!
+  removeProduct(id: ID!): Product!
+  createPromo(createPromoInput: CreatePromoInput!): Promo!
+  updatePromo(updatePromoInput: UpdatePromoInput!): Promo!
+  removePromo(id: String!): Promo!
 }
 
 input CreateUserInput {
@@ -51,5 +113,69 @@ input UpdateBrandInput {
   description: String
 
   """Brands for the products"""
+  id: Int!
+}
+
+input CreateCategoryInput {
+  title: String!
+  description: String
+}
+
+input UpdateCategoryInput {
+  title: String
+  description: String
+
+  """Categories for the products"""
+  id: Int!
+}
+
+input CreateTypesItemInput {
+  title: String!
+  description: String
+}
+
+input UpdateTypesItemInput {
+  title: String
+  description: String
+
+  """Type of Item for the products"""
+  id: Int!
+}
+
+input CreateProductInput {
+  name: String!
+  description: String
+  image_path: String!
+  price: Float!
+  in_stock: Int!
+  brandId: Float!
+  typeItemId: Float!
+  categoryId: Float!
+}
+
+input UpdateProductInput {
+  name: String
+  description: String
+  image_path: String
+  price: Float
+  in_stock: Int
+  brandId: Float
+  typeItemId: Float
+  categoryId: Float
+  id: ID!
+}
+
+input CreatePromoInput {
+  title: String!
+  description: String
+  date_start: String
+  date_end: String!
+}
+
+input UpdatePromoInput {
+  title: String
+  description: String
+  date_start: String
+  date_end: String
   id: ID!
 }

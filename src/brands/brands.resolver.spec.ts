@@ -7,7 +7,7 @@ import { Brand } from './entities/brand.entity';
 describe('BrandsResolver', () => {
   let resolver: BrandsResolver;
   let brandMockService : BrandsService;
-  let test_id = 'test-id';
+  let test_id = 1;
   let title_changed = 'Title changed';
 
   let createDto = new CreateBrandInput();
