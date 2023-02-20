@@ -2,9 +2,23 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Role {
+  """Role ID"""
+  id: Int!
+  title: String!
+  description: String!
+  users: [User!]!
+}
+
 type User {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id: ID!
+  first_name: String!
+  last_name: String!
+  email: String!
+  dni: String!
+  isActive: Boolean!
+  roleId: Int!
+  role: Role!
 }
 
 type Category {
@@ -56,9 +70,16 @@ type Promo {
   date_end: String!
 }
 
+type AuthResponse {
+  token: String!
+  user: User!
+}
+
 type Query {
   users: [User!]!
-  user(id: Int!): User!
+  user(id: ID!): User!
+  roles: [Role!]!
+  role(id: Int!): Role!
   brands: [Brand!]!
   brand(id: Int!): Brand!
   categories: [Category!]!
@@ -74,7 +95,10 @@ type Query {
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
+  removeUser(id: ID!): User!
+  createRole(createRoleInput: CreateRoleInput!): Role!
+  updateRole(updateRoleInput: UpdateRoleInput!): Role!
+  removeRole(id: Int!): Role!
   createBrand(createBrandInput: CreateBrandInput!): Brand!
   updateBrand(updateBrandInput: UpdateBrandInput!): Brand!
   removeBrand(id: Int!): Brand!
@@ -90,14 +114,34 @@ type Mutation {
   createPromo(createPromoInput: CreatePromoInput!): Promo!
   updatePromo(updatePromoInput: UpdatePromoInput!): Promo!
   removePromo(id: String!): Promo!
+  signup(signupInput: SignupInput!): AuthResponse!
 }
 
 input CreateUserInput {
+  first_name: String!
+  last_name: String!
+  email: String!
+  password: String!
+  dni: String!
+  isActive: Boolean!
+}
+
+input UpdateUserInput {
+  first_name: String
+  last_name: String
+  email: String
+  password: String
+  dni: String
+  isActive: Boolean
+  id: ID!
+}
+
+input CreateRoleInput {
   """Example field (placeholder)"""
   exampleField: Int!
 }
 
-input UpdateUserInput {
+input UpdateRoleInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!
@@ -178,4 +222,13 @@ input UpdatePromoInput {
   date_start: String
   date_end: String
   id: ID!
+}
+
+input SignupInput {
+  first_name: String!
+  last_name: String!
+  email: String!
+  password: String!
+  dni: String!
+  isActive: Boolean!
 }

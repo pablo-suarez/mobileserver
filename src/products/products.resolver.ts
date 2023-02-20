@@ -38,7 +38,6 @@ export class ProductsResolver {
 
   @ResolveField(() => Brand)
   brand(@Parent() product:Product){
-    console.log("Llego");
     return this.productsService.getBrand(product.brandId);
   }
 

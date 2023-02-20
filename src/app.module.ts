@@ -11,6 +11,8 @@ import { CategoriesModule } from './categories/categories.module';
 import { TypesItemsModule } from './types_items/types_items.module';
 import { ProductsModule } from './products/products.module';
 import { PromosModule } from './promos/promos.module';
+import { RolesModule } from './roles/roles.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -39,6 +41,8 @@ import { PromosModule } from './promos/promos.module';
     TypesItemsModule,
     ProductsModule,
     PromosModule,
+    RolesModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
